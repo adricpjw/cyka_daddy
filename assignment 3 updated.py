@@ -71,7 +71,7 @@ def sierpinski(level, length):
 ### Test Cases: uncomment the lines below to check
 # sierpinski(1, 400)
 # sierpinski(2, 400)
-sierpinski(3, 400)
+# sierpinski(3, 400)
 
 
 
@@ -79,7 +79,7 @@ sierpinski(3, 400)
 def upside_arrowhead(level, length):
     #sequence: l > r > r > l
     if level == 1:
-        distance = length
+        distance = length/2
         lt(60)
         fd(distance)
         rt(60)
@@ -87,6 +87,7 @@ def upside_arrowhead(level, length):
         rt(60)
         fd(distance)
         lt(60)
+
     else:
         distance = length/2
         lt(60)
@@ -99,7 +100,7 @@ def upside_arrowhead(level, length):
 
 def reverse_arrowhead(level, length):
     if level == 1:
-        distance = length
+        distance = length /2
         rt(60)
         fd(distance)
         lt(60)
@@ -107,6 +108,7 @@ def reverse_arrowhead(level, length):
         lt(60)
         fd(distance)
         rt(60)
+
     else:
         distance = length / 2
         rt(60)
@@ -179,7 +181,7 @@ def check_string(coord, size, x_coord, y_coord):
         (coord > y_coord + size or coord < y_coord - size)
 
 ### Test Cases: uncomment the lines below to check
-# print(check_string(0, 0.09, 0.1, 0.1))
+# print(check_string(0, 0.005, 0.1, 0.1))
 # print(check_string(0, 0.1, 0.1, 0.1))
 
 
@@ -189,7 +191,6 @@ from random import uniform
 def monte_carlo_mosquito(string_dist, size):
     timesHit = 0
     total = 0
-    numstrings = int(floor(1/string_dist))
 
     for i in range(100000):
 
@@ -203,9 +204,12 @@ def monte_carlo_mosquito(string_dist, size):
             #idea: creates a list that appends True/False depending on what check_string() outputs
             newList = []
             #for loop that checks for every string if check_string returns a True 
-            for j in range(-numstrings,numstrings+1):
-                newList.append(check_string(j*string_dist,size,x,y))
-            timesHit += True in newList
+            totString = 0
+            while totString <= 1:
+                check = check_string(totString,size,x,y) and check_string(-totString,size,x,y)
+                newList.append(check)
+                totString += string_dist
+            timesHit += False in newList
 
     return timesHit/total
 
